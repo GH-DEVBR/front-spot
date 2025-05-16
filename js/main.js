@@ -33,17 +33,18 @@ function renderizarSpots(spots) {
 
 async function buscarSpots(termo = '') {
   try {
-    const url = termo
+    const endpoint = termo
       ? `${API_BASE}/search?nome=${encodeURIComponent(termo)}`
       : API_BASE;
 
-    const res = await fetch(url);
+    const res = await fetch(endpoint);
     const spots = await res.json();
     renderizarSpots(spots);
-  } catch (err) {
-    console.error("Erro ao buscar spots:", err);
+  } catch (error) {
+    console.error('Erro ao buscar spots:', error);
   }
 }
+
 
 document.getElementById('searchInput').addEventListener('input', async (e) => {
   const termo = e.target.value.toLowerCase();
