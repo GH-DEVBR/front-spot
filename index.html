@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🌴 Surf Spot Explorer</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="main.js"></script>
+</head>
+<body>
+  <video autoplay muted loop id="bg-video">
+    <source src="img/13772-251867974_small.mp4" type="video/mp4" />
+  </video>
+
+  <section class="hero">
+    <h1>Surf Spot Explorer</h1>
+    <p>Descubra praias incríveis com previsão em tempo real!</p>
+    <input type="text" id="searchInput" placeholder="Buscar praia..." />
+  </section>
+
+  <div id="map"></div>
+
+  <div class="spots-container" id="spotsContainer">
+    <!-- JS renderiza aqui -->
+  </div>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+</body>
+</html>
+
+
+
+
+
