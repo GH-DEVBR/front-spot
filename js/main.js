@@ -1,17 +1,12 @@
 const API_BASE = "http://localhost:8081/api/spots";
 const MAP_CENTER = [-23.5489, -46.6388];
+
 let markers = [];
 
 const map = L.map('map').setView(MAP_CENTER, 5);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution: '&copy; OpenStreetMap contributors'
 }).addTo(map);
-
-async function carregarSpots() {
-  const res = await fetch(API_BASE);
-  const spots = await res.json();
-  renderizarSpots(spots);
-}
 
 function renderizarSpots(spots) {
   const container = document.getElementById('spotsContainer');
@@ -36,25 +31,31 @@ function renderizarSpots(spots) {
   });
 }
 
-document.getElementById('searchInput').addEventListener('keyup', async (e) => {
-  if (e.key === 'Enter') {
-    const termo = e.target.value.trim();
-    const res = await fetch(`${API_BASE}/search?nome=${encodeURIComponent(termo)}`);
+async function buscarSpots(termo = '') {
+  try {
+    const url = termo
+      ? `${API_BASE}/search?nome=${encodeURIComponent(termo)}`
+      : API_BASE;
+
+    const res = await fetch(url);
     const spots = await res.json();
     renderizarSpots(spots);
+  } catch (err) {
+    console.error("Erro ao buscar spots:", err);
   }
-});
+}
 
-// também funciona em tempo real
 document.getElementById('searchInput').addEventListener('input', async (e) => {
-  const termo = e.target.value.trim();
-  if (termo === "") {
-    carregarSpots();
-  }
+  const termo = e.target.value.toLowerCase();
+  const res = await fetch(API_BASE);
+  const spots = await res.json();
+
+  const filtrados = spots.filter(s => s.nome.toLowerCase().includes(termo));
+  renderizarSpots(filtrados);
 });
 
-carregarSpots();
 
+buscarSpots();
 
 
 
