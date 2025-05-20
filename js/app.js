@@ -5,14 +5,23 @@ async function buscarPraia() {
 
   try {
     const response = await fetch(`https://surf-backend.onrender.com/api/spots`);
+    if (!response.ok) {
+      throw new Error("Erro na resposta da API");
+    }
+
     const data = await response.json();
 
-    if (data.length === 0) {
+    // Filtro local por nome
+    const praiasFiltradas = data.filter(praia =>
+      praia.nome.toLowerCase().includes(nome.toLowerCase())
+    );
+
+    if (praiasFiltradas.length === 0) {
       container.innerHTML = "<p>Nenhuma praia encontrada.</p>";
       return;
     }
 
-    data.forEach((praia, index) => {
+    praiasFiltradas.forEach((praia, index) => {
       const bloco = document.createElement("div");
       bloco.className = "resultado-item";
       bloco.setAttribute("data-aos", "fade-up");
@@ -46,13 +55,13 @@ async function buscarPraia() {
 
   } catch (err) {
     console.error("Erro na busca:", err);
-    container.innerHTML = "<p>Erro ao buscar dados da API.</p>";
+    container.innerHTML = "<p>❌ Erro ao buscar dados da API.</p>";
   }
 }
 
 // StormGlass API
 async function buscarCondicoes(latitude, longitude, div) {
-  const apiKey = '2bafb89a-34c4-11f0-a0f4-0242ac130003-2bafb8f4-34c4-11f0-a0f4-0242ac130003'; // ⬅️ Substitua com sua chave da StormGlass
+  const apiKey = '2bafb89a-34c4-11f0-a0f4-0242ac130003-2bafb8f4-34c4-11f0-a0f4-0242ac130003'; // ⬅️ Sua chave válida StormGlass
 
   const agora = new Date();
   const hoje = agora.toISOString().split('T')[0];
@@ -66,6 +75,10 @@ async function buscarCondicoes(latitude, longitude, div) {
       }
     });
 
+    if (!response.ok) {
+      throw new Error("Erro na StormGlass");
+    }
+
     const data = await response.json();
     const hora = data.hours[0];
 
@@ -74,9 +87,9 @@ async function buscarCondicoes(latitude, longitude, div) {
     const tempAgua = hora.waterTemperature.noaa;
 
     div.innerHTML = `
-      <p>🌊 <strong>Ondas:</strong> ${alturaOnda.toFixed(1)} m</p>
-      <p>💨 <strong>Vento:</strong> ${vento.toFixed(1)} km/h</p>
-      <p>🌡️ <strong>Água:</strong> ${tempAgua.toFixed(1)} °C</p>
+      <p>🌊 <strong>Ondas:</strong> ${alturaOnda?.toFixed(1) ?? 'N/A'} m</p>
+      <p>💨 <strong>Vento:</strong> ${vento?.toFixed(1) ?? 'N/A'} km/h</p>
+      <p>🌡️ <strong>Água:</strong> ${tempAgua?.toFixed(1) ?? 'N/A'} °C</p>
     `;
 
   } catch (err) {
@@ -84,6 +97,8 @@ async function buscarCondicoes(latitude, longitude, div) {
     div.innerHTML = "<p>⚠️ Sem dados climáticos disponíveis no momento.</p>";
   }
 }
+
+
 
 
 
