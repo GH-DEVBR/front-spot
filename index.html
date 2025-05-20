@@ -1,46 +1,39 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>🌴 Surf Spot Explorer</title>
-
-  <!-- Estilos -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-  <link rel="stylesheet" href="style.css" />
-
-  <!-- Script principal -->
-  <script defer src="main.js"></script>
+  <meta charset="UTF-8">
+  <title>Surf Spot Explorer</title>
+  <link rel="stylesheet" href="css/style.css">
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <!-- AOS CSS -->
+<link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
 </head>
-<body>
 
-  <!-- 🔁 Vídeo de fundo -->
+<body>
+  <div class="container">
+      <!-- 🔁 Vídeo de fundo -->
   <video autoplay muted loop playsinline id="bg-video">
     <source src="img/13772-251867974_small.mp4" type="video/mp4" />
   </video>
-
-  <!-- 🌊 Seção principal -->
-  <section class="hero">
     <h1>Surf Spot Explorer</h1>
-    <p>Descubra praias incríveis com previsão em tempo real!</p>
-    <input type="text" id="searchInput" placeholder="Buscar praia..." />
-  </section>
+    <input type="text" id="searchInput" placeholder="Digite o nome da praia...">
+    <button onclick="buscarPraia()">Buscar</button>
 
-  <!-- 🗺️ Mapa -->
-  <div id="map"></div>
-
-  <!-- 📍 Resultados -->
-  <div class="spots-container" id="spotsContainer">
-    <!-- Cards das praias inseridos via JS -->
+    <div id="resultados"></div>
   </div>
 
-  <!-- Leaflet -->
-  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="js/app.js"></script>
+  <!-- AOS JS -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+  AOS.init();
+</script>
 
 </body>
 </html>
-
 
 
 
